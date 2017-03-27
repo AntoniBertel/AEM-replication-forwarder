@@ -1,0 +1,56 @@
+{
+  "configuration": {
+    "status": "ERROR",
+    "monitorInterval": "30",
+    "properties": {
+      "property": [
+        {
+          "name": "global-name",
+          "value": "global.log"
+        }
+      ]
+    },
+    "appenders": {
+      "RollingFile": [
+        {
+          "name": "global-file",
+          "fileName": "${log-path}/${global-name}",
+          "filePattern": "${log-path}/vertx-%d{yyyy-MM-dd}-%i-${global-name}",
+          "PatternLayout": {
+            "pattern": "[%-5p] %d %c [%t] %m%n"
+          },
+          "Policies": {
+            "TimeBasedTriggeringPolicy": {
+              "interval": "1",
+              "modulate": "true"
+            },
+            "SizeBasedTriggeringPolicy": {
+              "size": "2 MB"
+            }
+          },
+          "DefaultRolloverStrategy": {
+            "Delete": {
+              "basePath": "${log-path}",
+              "IfLastModified": { "age": "60d" }
+            }
+          }
+        }
+      ],
+      "Console": {
+        "name": "global-console",
+        "target": "SYSTEM_OUT",
+        "PatternLayout": {
+          "pattern": "[%-5p] %d %c [%t] %m%n"
+        }
+      }
+    },
+    "loggers": {
+      "root": {
+        "level": "DEBUG",
+        "AppenderRef": {
+          "ref": "global-file"
+        }
+      }
+    }
+  }
+}

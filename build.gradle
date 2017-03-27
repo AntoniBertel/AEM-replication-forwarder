@@ -1,0 +1,46 @@
+//java -Dlog4j.configurationFile=log4j2.json -Dvertx.options.eventLoopPoolSize=20 -DLog4jContextSelector=org.apache.logging.log4j.core.async.AsyncLoggerContextSelector
+
+plugins {
+    id 'java'
+    id 'application'
+    id 'com.github.johnrengelman.shadow' version '1.2.4'
+}
+
+repositories {
+    mavenLocal()
+    mavenCentral()
+    jcenter()
+    maven {
+        url "https://oss.sonatype.org/content/repositories/snapshots"
+    }
+}
+
+group 'org.aem.replication'
+version '1.0-SNAPSHOT'
+
+sourceCompatibility = 1.8
+
+dependencies {
+    def log4jVersion = '2.8.1'
+
+    compile group: 'io.vertx', name: 'vertx-core', version: '3.4.1'
+    compile group: 'io.vertx', name: 'vertx-web', version: '3.4.1'
+    compile group: 'io.vertx', name: 'vertx-rx-java', version: '3.4.1'
+    compile group: 'io.vertx', name: 'vertx-config', version: '3.4.1'
+    compile group: 'com.lmax', name: 'disruptor', version: '3.3.6'
+    compile group: 'org.apache.jackrabbit', name: 'jackrabbit-jcr-commons', version: '2.15.1'
+
+    compile "org.apache.logging.log4j:log4j-api:$log4jVersion"
+    compile "org.apache.logging.log4j:log4j-core:$log4jVersion"
+
+
+}
+
+mainClassName = "io.vertx.core.Starter"
+
+shadowJar {
+    classifier = 'fat'
+    mergeServiceFiles {
+        include 'META-INF/services/io.vertx.core.spi.VerticleFactory'
+    }
+}

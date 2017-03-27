@@ -1,0 +1,9 @@
+{
+  "replicationAddresses": [
+    {
+      "host": "localhost",
+      "port": 4503,
+      "requestURI": "/bin/receive?sling:authRequestLogin=1"
+    }
+  ]
+}
